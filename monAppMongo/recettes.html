@@ -1,0 +1,96 @@
+<!-- recettes.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste des recettes</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Ajout de styles pour chaque information de la recette */
+    .recipe-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .recipe-description {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .recipe-ingredients {
+      margin-bottom: 10px;
+    }
+
+    .recipe-cooking-time,
+    .recipe-servings {
+      font-weight: bold;
+      color: #4caf50;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Liste des recettes</h1>
+  <ul id="recipeList"></ul>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('http://localhost:3000/lire')
+        .then(response => response.json())
+        .then(data => {
+          const recipeList = document.getElementById('recipeList');
+          data.forEach(recipe => {
+            const listItem = document.createElement('li');
+
+            // Utilisation des noms de propriétés cohérents avec l'index.html
+            listItem.innerHTML = `
+              <div class="recipe-title">${recipe.title}</div>
+              <div class="recipe-description">${recipe.description}</div>
+              <div class="recipe-ingredients">${recipe.ingredients}</div>
+              <div class="recipe-cooking-time">Temps de cuisson: ${recipe.cookingTime} minutes</div>
+              <div class="recipe-servings">Portions: ${recipe.servings}</div>
+            `;
+
+            recipeList.appendChild(listItem);
+          });
+        })
+        .catch(error => {
+          console.error('Erreur lors de la récupération des recettes:', error);
+        });
+    });
+  </script>
+</body>
+
+</html>
